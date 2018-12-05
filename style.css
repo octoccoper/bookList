@@ -1,0 +1,22 @@
+.success, .error {
+  color: #fff;
+  padding: 5px;
+  margin: 5px 0 15px 0;
+}
+
+.success {
+  background:green
+}
+
+.error {
+  background: red;
+}
+
+.button.sbmt-btn {
+  background: rebeccapurple;
+  color: #fff;
+}
+
+.button.sbmt-btn:hover {
+  color: rgba(255, 255, 255, 0.384);
+}
