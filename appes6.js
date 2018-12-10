@@ -55,7 +55,7 @@ class UI {
     container.insertBefore(div, form);
 
     // Timeout
-    setTimeout(function() {
+    setTimeout(function () {
       document.querySelector(".alert").remove();
     }, 3000);
   }
@@ -68,8 +68,48 @@ class UI {
   }
 }
 
+// Local Storage Class
+class Store {
+  static getBooks() {
+    let books;
+    if (localStorage.getItem("books") === null) {
+      books = [];
+    } else {
+      books = JSON.parse(localStorage.getItem("books"));
+    }
+    return books;
+  }
+
+  static displayBooks() {
+    const books = Store.getBooks();
+
+    books.forEach(function (book) {
+      const ui = new UI;
+
+      ui.addBookToList(book);
+    });
+  }
+
+  static addBook(book) {
+    const books = Store.getBooks();
+
+    books.push(book);
+
+    localStorage.setItem("books", JSON.stringify(books));
+  }
+
+  static removeBook(isbn) {
+    console.log(isbn);
+  }
+}
+
+
+// DOM Load Event
+document.addEventListener("DOMContentLoaded", Store.displayBooks);
+
+
 // Event listeners
-document.getElementById("book-form").addEventListener("submit", function(e) {
+document.getElementById("book-form").addEventListener("submit", function (e) {
   // Get form values
   const title = document.getElementById("title").value,
     author = document.getElementById("author").value,
@@ -89,6 +129,9 @@ document.getElementById("book-form").addEventListener("submit", function(e) {
     // Add book to list
     ui.addBookToList(book);
 
+    // Add book to local storage 
+    Store.addBook(book);
+
     // Clear fields
     ui.clearFields();
 
@@ -100,13 +143,16 @@ document.getElementById("book-form").addEventListener("submit", function(e) {
 });
 
 // Remove books from list
-document.getElementById("book-list").addEventListener("click", function(e) {
+document.getElementById("book-list").addEventListener("click", function (e) {
 
   //Istantiate UI
   const ui = new UI();
 
   // Delete book
   ui.deleteBook(e.target);
+
+  // Remove from localStorage
+  Store.removeBook(e.target.parentElement.previousElementSibling.textContent);
 
   // Show message
   ui.showAlert("You deleted all items", "success");
