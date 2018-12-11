@@ -99,7 +99,17 @@ class Store {
   }
 
   static removeBook(isbn) {
-    console.log(isbn);
+    const books = Store.getBooks();
+    
+    books.forEach(function (book, index) { 
+      console.log("isbn=",isbn);
+      console.log("book.isbn",book.isbn);
+      if (book.isbn === isbn) { 
+        books.splice(index, 1);
+      }
+    })
+
+    localStorage.setItem("books", JSON.stringify(books));
   }
 }
 
