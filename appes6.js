@@ -100,14 +100,15 @@ class Store {
 
   static removeBook(isbn) {
     const books = Store.getBooks();
+    let id = isbn.trim();
 
     books.forEach(function (book, index) {
-      if (book.isbn == isbn) {
+      if (book.isbn === id) {
         books.splice(index, 1);
       }
     });
 
-    localStorage.setItem('books', JSON.stringify(books));
+    localStorage.setItem("books", JSON.stringify(books));
   }
 }
 
@@ -135,7 +136,7 @@ document.getElementById("book-form").addEventListener("submit", function (e) {
     // Add book to list
     ui.addBookToList(book);
 
-    // Add book to local storage 
+    // Add book to local storage
     Store.addBook(book);
 
     // Clear fields
